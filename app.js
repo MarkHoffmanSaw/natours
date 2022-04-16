@@ -8,6 +8,7 @@ const userRouter = require('./routes/userRoutes');
 
 // 1. Middleware
 
+// config.env
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev')); // METHOD DIR STATUS TIME - SIZE
 }
