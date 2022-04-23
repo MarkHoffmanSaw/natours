@@ -1,6 +1,14 @@
 const mongoose = require('mongoose'); // simple queries for mongoDB
 const dotenv = require('dotenv');
 
+// Uncaught exception (catching sync - reference error etc.)
+// Always in the beginning
+process.on('uncaughtException', (err) => {
+  console.log(err.name, err.message);
+  console.log('Uncaught exception, shutting down...');
+  process.exit(1);
+});
+
 dotenv.config({ path: './config.env' });
 
 const app = require('./app'); // only after dotenv.config
@@ -23,6 +31,15 @@ mongoose // for local DB - .connect(process.env.DATABASE_LOCAL, ...
 // 2. Start the server
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+
+const server = app.listen(port, () => {
+  console.log('Server mode:', process.env.NODE_ENV);
   console.log(`App running on port ${port}`);
+});
+
+// Unhandled rejection (catching async - rejected promises)
+process.on('unhandledRejection', (err) => {
+  console.log(err.name, err.message);
+  console.log('Unhandled rejection, shutting down...');
+  server.close(() => process.exit(1));
 });
