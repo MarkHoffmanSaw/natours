@@ -105,12 +105,12 @@ tourSchema.pre('save', function (next) {
 // -- Query middleware (this === curr Query)
 
 // regexp: all commands start with 'find' .find() .findOne()
-// tourSchema.pre(/^find/, function (next) {
-//   this.find({ secretTour: { $ne: true } });
+tourSchema.pre(/^find/, function (next) {
+  this.find({ secretTour: { $ne: true } });
 
-//   this.start = Date.now();
-//   next();
-// });
+  // this.start = Date.now();
+  next();
+});
 
 // tourSchema.post(/^find/, function (docs, next) {
 //   console.log(`Query's time: ${Date.now() - this.start} ms`);

@@ -1,3 +1,5 @@
+// Using instead of 'try-catch'
+
 module.exports = (fn) => {
   // any args (defined for calling in fn!)
   return (req, res, next) => {
@@ -7,5 +9,3 @@ module.exports = (fn) => {
 };
 
 // const fn = catchAsync( async(req,res,next)=>{} )
-
-// to tourController
