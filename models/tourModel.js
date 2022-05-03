@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const validator = require('validator');
+// const User = require('./userModel');
 
 const tourSchema = new mongoose.Schema(
   {
@@ -41,6 +42,7 @@ const tourSchema = new mongoose.Schema(
       // validation:
       max: [5, 'Rating cannot be more than 5'],
       min: [1, 'Rating cannot be less than 1'],
+      set: (val) => Math.round(val * 10) / 10,
     },
     ratingsQuantity: { type: Number, default: 0 },
     price: {
@@ -75,17 +77,65 @@ const tourSchema = new mongoose.Schema(
     },
     startDates: [Date],
     secretTour: { type: Boolean, default: false },
+    startLocation: {
+      // Geo JSON
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'],
+      },
+      coordinates: [Number],
+      adress: String,
+      description: String,
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+        },
+        coordinates: [Number],
+        adress: String,
+        description: String,
+        day: Number,
+      },
+    ],
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User', // get access to the 'User' model in mongoDB
+      },
+    ],
   },
+
+  // Options for the schema:
   {
+    // Convert for the output
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
 );
 
+// -- Indexed (+perfomance) - special type of data structures (for mongoDB)
+// ?price[lt]=1000&ratingsAverage[gt]=4.7
+// .index( { criteria: 1 or -1 } ) AZ or ZA, traversal, sort order (fields store in db like hash tables)
+// tourSchema.index({ price: 1 });
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+tourSchema.index({ slug: 1 });
+
 // -- Virtual propertiets (creating a new raw)
 
 tourSchema.virtual('durationWeek').get(function () {
   return this.duration / 7;
+});
+
+// Virtual populate: Tours <- Reviews id (Parrent < Child)
+// reviews: [ {}, {} ]
+tourSchema.virtual('reviews', {
+  ref: 'Review', // child
+  foreignField: 'tour', // child ref
+  localField: '_id', // find: _id in tour: ...
 });
 
 // -- Document middleware (this === curr Doc)
@@ -96,27 +146,31 @@ tourSchema.pre('save', function (next) {
   next(); // next middleware
 });
 
-// 'post' - after save
-// tourSchema.post('save', function (doc, next) {
-//   console.log(doc);
-//   next();
-// });
-
 // -- Query middleware (this === curr Query)
 
 // regexp: all commands start with 'find' .find() .findOne()
 tourSchema.pre(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } });
 
-  // this.start = Date.now();
+  this.start = Date.now();
+
   next();
 });
 
-// tourSchema.post(/^find/, function (docs, next) {
-//   console.log(`Query's time: ${Date.now() - this.start} ms`);
-//   console.log(docs);
-//   next();
-// });
+// faster!
+// [id,id] > [{id...},{id...}] references for 'this.guides'
+tourSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'guides',
+    select: '-__v -passwordChangedAt', // not show up
+  });
+  next();
+});
+
+tourSchema.post(/^find/, function (docs, next) {
+  console.log(`Query took: ${Date.now() - this.start} ms`);
+  next();
+});
 
 // -- Aggregation middleware (this === curr Aggreg object)
 

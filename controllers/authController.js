@@ -223,7 +223,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.password = req.body.password; // new
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
-  // User.findByIdAndUpdate - won't work: validation(create and save only) & .pre('save')
+  // User.findByIdAndUpdate - wouldn't work: validation(create and save only) & .pre('save')
 
   // 4. Log the user in, send JWT
   createSendToken(user, 200, res);

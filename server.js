@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 // Uncaught exception (catching sync - reference error etc.)
 // Always in the beginning
 process.on('uncaughtException', (err) => {
-  console.log(err.name, err.message);
+  console.log(err, err.name, err.message);
   console.log('Uncaught exception, shutting down...');
   process.exit(1);
 });
