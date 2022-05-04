@@ -5,16 +5,26 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const path = require('path');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
 
+// Settings for .pug templates
+// npm i pug
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 // 1. Global middlewares:
+
+// Serving static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Setting security http headers
 app.use(helmet());
@@ -37,7 +47,7 @@ app.use('/api', limiter);
 // {} - options
 app.use(express.json({ limit: '10kb' })); // max-size req.body
 
-// Data sanitization against NoSQ query injectioin:
+// Data sanitization against NoSQL query injectioin:
 // Login: req.body: { "email": { "$gt": "" }, "pass": "pass1234" } - it will run w/o a defender!
 app.use(mongoSanitize());
 
@@ -61,9 +71,6 @@ app.use(
   })
 );
 
-// Serving static files
-app.use(express.static(`${__dirname}/public`));
-
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -73,7 +80,7 @@ app.use((req, res, next) => {
 
 // 2. Routes
 
-// Middleware only for current routes
+app.use('/', viewRouter); // using .pug (settings above)
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);

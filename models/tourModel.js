@@ -79,6 +79,8 @@ const tourSchema = new mongoose.Schema(
     secretTour: { type: Boolean, default: false },
     startLocation: {
       // Geo JSON
+      // .find query: $geoWithin ({ startLocation:... })
+      // aggregation: $geoNear (type: Point)
       type: {
         type: String,
         default: 'Point',
@@ -118,11 +120,13 @@ const tourSchema = new mongoose.Schema(
 );
 
 // -- Indexed (+perfomance) - special type of data structures (for mongoDB)
+
 // ?price[lt]=1000&ratingsAverage[gt]=4.7
 // .index( { criteria: 1 or -1 } ) AZ or ZA, traversal, sort order (fields store in db like hash tables)
 // tourSchema.index({ price: 1 });
 tourSchema.index({ price: 1, ratingsAverage: -1 });
 tourSchema.index({ slug: 1 });
+tourSchema.index({ startLocation: '2dsphere' });
 
 // -- Virtual propertiets (creating a new raw)
 
