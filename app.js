@@ -6,6 +6,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -46,6 +47,7 @@ app.use('/api', limiter);
 // Body parser,reading data from body into req.body
 // {} - options
 app.use(express.json({ limit: '10kb' })); // max-size req.body
+app.use(cookieParser());
 
 // Data sanitization against NoSQL query injectioin:
 // Login: req.body: { "email": { "$gt": "" }, "pass": "pass1234" } - it will run w/o a defender!
@@ -74,7 +76,7 @@ app.use(
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  // console.log(req.headers);
+  console.log(req.cookies);
   next();
 });
 

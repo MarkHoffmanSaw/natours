@@ -25,10 +25,12 @@ const createSendToken = (user, status, res) => {
     httpOnly: true,
   };
 
+  // Save cookie
   res.cookie('jwt', token, cookieOptions);
 
   res.status(status).json({
     status: 'success',
+    statusCode: status,
     token,
     data: {
       user,
@@ -83,6 +85,8 @@ exports.protect = catchAsync(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(' ')[1];
   }
+  // login again using cookies:
+  else if (req.cookies.jwt) token = req.cookies.jwt;
 
   if (!token)
     return next(
@@ -115,6 +119,29 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // 5. Only after implemetnation steps above w/o errors:
   req.user = currentUser; // using in the next middleware
+  next();
+});
+
+// -- Check for logging in the user
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
+  if (req.cookies.jwt) {
+    // 1. Verify the token
+    const decoded = await promisify(jwt.verify)(
+      req.cookies.jwt,
+      process.env.JWT_SECRET
+    );
+
+    // 2. Check for existing the user
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) return next();
+
+    // 3. Check if the user changed pass after token iat
+    if (currentUser.changedPasswordAfter(decoded.iat)) return next();
+
+    // There is a logged in user (add 'user')
+    res.locals.user = currentUser;
+    next();
+  }
   next();
 });
 
