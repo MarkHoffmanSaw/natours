@@ -74,6 +74,17 @@ exports.login = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
+// -- Reset the cookie (create a fake for .isLoggedIn)
+// GET
+exports.logout = (req, res) => {
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+
+  res.status(200).json({ status: 'success' });
+};
+
 // -- Access to the data (tours) for an auth. user
 // GET
 exports.protect = catchAsync(async (req, res, next) => {
@@ -123,6 +134,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 // -- Check for logging in (for changing _header.pug)
+// USE in 'viewRoutes'
 exports.isLoggedIn = async (req, res, next) => {
   if (req.cookies.jwt) {
     try {
@@ -149,7 +161,7 @@ exports.isLoggedIn = async (req, res, next) => {
   next();
 };
 
-// DELETE (tours for "admin", "lead-guide")
+// ACCESS (tours for "admin", "lead-guide")
 exports.restrictTo = (...roles) => {
   // Closure: access to params from router.delete(mid1,mid2,mid3)
   return (req, res, next) => {

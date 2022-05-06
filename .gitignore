@@ -1,3 +1,4 @@
-/node_modules
+node_modules
 useful-sources.md
-
+.cache
+.parcel-cache
