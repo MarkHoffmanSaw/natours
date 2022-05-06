@@ -1,10 +1,25 @@
+import { displayMap } from './mapbox';
 import { login } from './login';
 
-document.querySelector('form').addEventListener('submit', (e) => {
-  e.preventDefault();
+// DOM elements
 
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
+const mapBox = document.getElementById('map');
+const loginForm = document.querySelector('form');
 
-  login(email, password);
-});
+// Delegation
+
+if (mapBox) {
+  const locations = JSON.parse(mapBox.dataset.locations);
+  displayMap(locations);
+}
+
+if (loginForm) {
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    login(email, password);
+  });
+}
