@@ -122,28 +122,32 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
-// -- Check for logging in the user
-exports.isLoggedIn = catchAsync(async (req, res, next) => {
+// -- Check for logging in (for changing _header.pug)
+exports.isLoggedIn = async (req, res, next) => {
   if (req.cookies.jwt) {
-    // 1. Verify the token
-    const decoded = await promisify(jwt.verify)(
-      req.cookies.jwt,
-      process.env.JWT_SECRET
-    );
+    try {
+      // 1. Verify the token
+      const decoded = await promisify(jwt.verify)(
+        req.cookies.jwt,
+        process.env.JWT_SECRET
+      );
 
-    // 2. Check for existing the user
-    const currentUser = await User.findById(decoded.id);
-    if (!currentUser) return next();
+      // 2. Check for existing the user
+      const currentUser = await User.findById(decoded.id);
+      if (!currentUser) return next();
 
-    // 3. Check if the user changed pass after token iat
-    if (currentUser.changedPasswordAfter(decoded.iat)) return next();
+      // 3. Check if the user changed pass after token iat
+      if (currentUser.changedPasswordAfter(decoded.iat)) return next();
 
-    // There is a logged in user (add 'user')
-    res.locals.user = currentUser;
-    next();
+      // There is a logged in user (add 'user')
+      res.locals.user = currentUser; // sending to >>> base.pug >>> _header >>> user
+      return next();
+    } catch (err) {
+      return next();
+    }
   }
   next();
-});
+};
 
 // DELETE (tours for "admin", "lead-guide")
 exports.restrictTo = (...roles) => {

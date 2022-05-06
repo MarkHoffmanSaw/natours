@@ -73,10 +73,10 @@ app.use(
   })
 );
 
-// Test middleware
+// Middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.cookies);
+  console.log(req.cookies); // JWT
   next();
 });
 

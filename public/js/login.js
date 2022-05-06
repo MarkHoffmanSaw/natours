@@ -1,33 +1,23 @@
-const login = async (email, password) => {
-  console.log(email, password);
+import axios from 'axios';
 
+export const login = async (email, password) => {
   try {
-    // const URL = `http://127.0.0.1:3000/api/v1/users/login`;
-    const URL = `http://172.18.09:3000/api/v1/users/login`;
-    const res = await fetch(URL, {
+    const URL = `http://127.0.0.1:3000/api/v1/users/login`;
+    const res = await axios({
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+      url: URL,
+      data: {
         email,
         password,
-      }),
+      },
     });
 
-    const data = await res.json();
-
-    console.log(data);
+    if (res.data.status === 'success') {
+      console.log('You have logged in successfully');
+      location.assign('/');
+    }
   } catch (error) {
+    alert('Incorrect email or password');
     console.log(error);
   }
 };
-
-document.querySelector('form').addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-
-  login(email, password);
-});

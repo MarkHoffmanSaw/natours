@@ -5,12 +5,15 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon server.js",
-    "build": "NODE_ENV=production nodemon server.js",
-    "debug": "ndb server.js"
+    "start:prod": "NODE_ENV=production nodemon server.js",
+    "debug": "ndb server.js",
+    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
+    "build:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
   },
   "author": "Artur Sopov",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.0",
@@ -31,6 +34,7 @@
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
+    "@parcel/transformer-pug": "^2.5.0",
     "@types/mapbox-gl": "^2.7.1",
     "eslint": "^8.13.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -40,7 +44,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
-    "ndb": "^1.1.5"
+    "ndb": "^1.1.5",
+    "parcel-bundler": "^1.12.5"
   },
   "engines": {
     "node": ">=10.0.0"
