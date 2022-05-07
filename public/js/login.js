@@ -14,7 +14,7 @@ export const login = async (email, password) => {
     });
 
     if (res.data.status === 'success') {
-      console.log('You have logged in successfully');
+      showAlert('success', 'You have logged in successfully');
       location.assign('/');
     }
   } catch (error) {
@@ -25,7 +25,7 @@ export const login = async (email, password) => {
 
 export const logout = async () => {
   try {
-    const URL = `http://127.0.0.1:3000/api/v1/users/logout`;
+    const URL = `http://127.0.0.1:3000/api/v1/users/logout`; // userRoutes
     const res = await axios({
       method: 'GET',
       url: URL,

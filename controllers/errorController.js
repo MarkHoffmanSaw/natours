@@ -48,14 +48,14 @@ const sendErrDev = (err, req, res) => {
 const sendErrProd = (err, req, res) => {
   // -- Requests to the API (BACK)
   if (req.originalUrl.startsWith('/api')) {
-    // Operational (AppError), trusted error: send message to the client
+    // - Operational (AppError), trusted error: send message to the client
     if (err.isOperational) {
       return res.status(err.statusCode).json({
         status: err.status,
         message: err.message,
       });
     }
-    // Programming or other uknowing error: don't leak error details
+    // - Programming or other uknowing error: don't leak error details
     // 1. Log the error
     console.error('ERROR', err);
     // 2. Send the message
@@ -66,7 +66,7 @@ const sendErrProd = (err, req, res) => {
   }
 
   // -- Working with a website (FRONT)
-  // Operational (AppError), trusted error: send message to the client
+  // - Operational (AppError), trusted error: send message to the client
   if (err.isOperational) {
     console.log(err.message);
     return res.status(err.statusCode).render('error', {
@@ -74,7 +74,7 @@ const sendErrProd = (err, req, res) => {
       msg: err.message,
     });
   }
-  // Programming or other uknowing error: don't leak error details
+  // - Programming or other uknowing error: don't leak error details
   // 1. Log the error
   console.error('ERROR', err);
   // 2. Send the message
