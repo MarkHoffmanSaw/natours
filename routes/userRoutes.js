@@ -22,8 +22,12 @@ router.get(
   userController.getMe, // req.params.id = req.user.id >
   userController.getUser
 );
-
-router.patch('/updateMe', userController.updateMe);
+router.patch(
+  '/updateMe',
+  userController.uploadUserPhoto, // multer > memoryStorage > req.file.buffer
+  userController.resizeUserPhoto, // sharp(req.file.buffer)
+  userController.updateMe
+);
 router.delete('/deleteMe', userController.deleteMe);
 
 // ADMIN only:
