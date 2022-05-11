@@ -11187,7 +11187,8 @@ var login = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            URL = "http://127.0.0.1:3000/api/v1/users/login";
+            // const URL = `http://127.0.0.1:3000/api/v1/users/login`;
+            URL = "http://natours:3000/api/v1/users/login";
             _context.next = 4;
             return (0, _axios.default)({
               method: 'POST',
@@ -11237,8 +11238,8 @@ var logout = /*#__PURE__*/function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
-            URL = "http://127.0.0.1:3000/api/v1/users/logout"; // userRoutes
-
+            // const URL = `http://127.0.0.1:3000/api/v1/users/logout`; // userRoutes
+            URL = "http://natours:3000/api/v1/users/logout";
             _context2.next = 4;
             return (0, _axios.default)({
               method: 'GET',
@@ -11363,7 +11364,8 @@ var bookTour = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return (0, _axios.default)("http://127.0.0.1:3000/api/v1/bookings/checkout-session/".concat(tourId));
+            return (0, _axios.default)( //   `http://127.0.0.1:3000/api/v1/bookings/checkout-session/${tourId}`
+            "http://natours:3000/api/v1/bookings/checkout-session/".concat(tourId));
 
           case 3:
             _context.next = 9;
