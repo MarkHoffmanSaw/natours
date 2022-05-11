@@ -13,6 +13,7 @@ router.get(
   viewsController.getOverview
 );
 router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour);
+router.get('/signup', authController.isLoggedIn, viewsController.getSignupForm);
 router.get('/login', authController.isLoggedIn, viewsController.getLoginForm);
 
 // logged in:
@@ -25,8 +26,5 @@ router.get('/my-tours', authController.protect, viewsController.getMyTours);
 //   authController.protect,
 //   viewsController.updateUserData
 // );
-
-// Needs to complete:
-// router.get('/signup', viewsController.getSignupForm);
 
 module.exports = router;

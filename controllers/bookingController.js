@@ -32,8 +32,11 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     ],
   });
 
-  // 3. Redirect to the session and then success/cancel
-  res.status(200).json({ status: 'success', session });
+  // 3) Create the session as a response
+  res.status(200).json({
+    status: 'success',
+    session,
+  });
 });
 
 // viewsRoutes:
@@ -47,5 +50,8 @@ exports.createBookingCheckout = catchAsync(async (req, res, next) => {
 });
 
 // CRUD:
+exports.createBooking = factory.createOne(Booking);
 exports.getAllBookings = factory.getAll(Booking);
-exports.getOneBooking = factory.getOne(Booking);
+exports.getBooking = factory.getOne(Booking);
+exports.updateBooking = factory.updateOne(Booking);
+exports.deleteBooking = factory.deleteOne(Booking);

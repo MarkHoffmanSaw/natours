@@ -1,5 +1,6 @@
 import '@babel/polyfill';
 import { displayMap } from './mapbox';
+import { signup } from './signup';
 import { login, logout } from './login';
 import { updateData } from './updateSettings';
 import { bookTour } from './stripe';
@@ -8,6 +9,7 @@ import { bookTour } from './stripe';
 
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
+const signupForm = document.querySelector('.form--signup');
 const logoutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
@@ -15,11 +17,30 @@ const bookBtn = document.getElementById('book-tour');
 
 // Delegation
 
+// Map
 if (mapBox) {
   const locations = JSON.parse(mapBox.dataset.locations);
   displayMap(locations);
 }
 
+// Signup
+if (signupForm) {
+  signupForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('name-reg').value;
+    const email = document.getElementById('email-reg').value;
+    const password = document.getElementById('password-reg').value;
+    const passwordConfirm = document.getElementById(
+      'password-confirm-reg'
+    ).value;
+    console.log(name, email, password, passwordConfirm);
+
+    signup(name, email, password, passwordConfirm);
+  });
+}
+
+// Login
 if (loginForm) {
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -31,8 +52,10 @@ if (loginForm) {
   });
 }
 
+// Logout
 if (logoutBtn) logoutBtn.addEventListener('click', logout);
 
+// Update user data
 if (userDataForm) {
   userDataForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -48,6 +71,7 @@ if (userDataForm) {
   });
 }
 
+// Update user password
 if (userPasswordForm) {
   userPasswordForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -67,6 +91,7 @@ if (userPasswordForm) {
   });
 }
 
+// Book the tour
 if (bookBtn) {
   bookBtn.addEventListener('click', (e) => {
     e.target.textContent = 'Processing...';
