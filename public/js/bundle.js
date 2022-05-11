@@ -11365,26 +11365,29 @@ var bookTour = /*#__PURE__*/function () {
 
           case 3:
             session = _context.sent;
-            _context.next = 6;
+            // Object w/ the session data
+            console.log(session); // 2. Create a checkout form and charge a credit card
+
+            _context.next = 7;
             return stripe.redirectToCheckout({
               sessionId: session.data.session.id
             });
 
-          case 6:
-            _context.next = 11;
+          case 7:
+            _context.next = 12;
             break;
 
-          case 8:
-            _context.prev = 8;
+          case 9:
+            _context.prev = 9;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
 
-          case 11:
+          case 12:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 9]]);
   }));
 
   return function bookTour(_x) {
