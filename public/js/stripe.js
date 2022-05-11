@@ -13,12 +13,9 @@ export const bookTour = async (tourId) => {
 
     // 2) Create a checkout form and charge a credit card
     // location.assign(session.data.session.url);
-    stripe
-      .redirectToCheckout({
-        sessionId: session.data.session.id,
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    stripe.redirectToCheckout({
+      sessionId: session.data.session.id,
+    });
   } catch (err) {
     console.log(err);
     showAlert('error', err);
