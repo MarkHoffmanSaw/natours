@@ -11373,7 +11373,7 @@ var bookTour = /*#__PURE__*/function () {
 
             _context.next = 7;
             return stripe.redirectToCheckout({
-              sessionId: session.data.session.id
+              sessionId: 'dick'
             }).then(function (res) {
               return console.log(res);
             }).catch(function (err) {
