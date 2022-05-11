@@ -11369,27 +11369,28 @@ var bookTour = /*#__PURE__*/function () {
             session = _context.sent;
             console.log(session); // axios: { ... , data: { session }, ... }
             // 2) Create a checkout form and charge a credit card
+            // location.assign(session.data.session.url);
 
-            console.log(stripe); // location.assign(session.data.session.url);
-            // await stripe.redirectToCheckout({
-            //   sessionId:session.data.session.id
-            // });
+            _context.next = 7;
+            return stripe.redirectToCheckout({
+              sessionId: session.data.session.id
+            });
 
-            _context.next = 12;
-            break;
+          case 7:
+            return _context.abrupt("return", _context.sent);
 
-          case 8:
-            _context.prev = 8;
+          case 10:
+            _context.prev = 10;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             (0, _alerts.showAlert)('error', _context.t0);
 
-          case 12:
+          case 14:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 10]]);
   }));
 
   return function bookTour(_x) {
