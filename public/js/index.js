@@ -1,12 +1,12 @@
 import '@babel/polyfill';
-// import { displayMap } from './mapbox';
+import { displayMap } from './mapbox';
 import { login, logout } from './login';
 import { updateData } from './updateSettings';
 import { bookTour } from './stripe';
 
 // DOM elements
 
-// const mapBox = document.getElementById('map');
+const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
 const logoutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
@@ -15,10 +15,10 @@ const bookBtn = document.getElementById('book-tour');
 
 // Delegation
 
-// if (mapBox) {
-//   const locations = JSON.parse(mapBox.dataset.locations);
-//   displayMap(locations);
-// }
+if (mapBox) {
+  const locations = JSON.parse(mapBox.dataset.locations);
+  displayMap(locations);
+}
 
 if (loginForm) {
   loginForm.addEventListener('submit', (e) => {
@@ -67,10 +67,10 @@ if (userPasswordForm) {
   });
 }
 
-// if (bookBtn) {
-//   bookBtn.addEventListener('click', (e) => {
-//     console.log('clicked');
-//     const { tourId } = e.target.dataset; // auto converted 'data-tour-id' to 'tourId'
-//     bookTour(tourId);
-//   });
-// }
+if (bookBtn) {
+  bookBtn.addEventListener('click', (e) => {
+    e.target.textContent = 'Processing...';
+    const { tourId } = e.target.dataset; // auto converted 'data-tour-id' to 'tourId'
+    bookTour(tourId);
+  });
+}
