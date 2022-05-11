@@ -12,7 +12,7 @@ export const bookTour = async (tourId) => {
     console.log(session); // axios: { ... , data: { session }, ... }
 
     // 2) Create a checkout form and charge a credit card
-    location.assign(session.data.session.url);
+    // location.assign(session.data.session.url);
     // await stripe.redirectToCheckout({
     //   sessionId: session.data.session.id,
     // });
