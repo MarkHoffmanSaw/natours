@@ -2,7 +2,7 @@ import '@babel/polyfill';
 import { displayMap } from './mapbox';
 import { login, logout } from './login';
 import { updateData } from './updateSettings';
-// import { bookTour } from './stripe';
+import { bookTour } from './stripe';
 
 // DOM elements
 
@@ -67,10 +67,10 @@ if (userPasswordForm) {
   });
 }
 
-// if (bookBtn) {
-//   bookBtn.addEventListener('click', (e) => {
-//     e.target.textContent = 'Processing...';
-//     const { tourId } = e.target.dataset; // auto converted 'data-tour-id' to 'tourId'
-//     bookTour(tourId);
-//   });
-// }
+if (bookBtn) {
+  bookBtn.addEventListener('click', (e) => {
+    e.target.textContent = 'Processing...';
+    const { tourId } = e.target.dataset; // auto converted 'data-tour-id' to 'tourId'
+    bookTour(tourId);
+  });
+}
