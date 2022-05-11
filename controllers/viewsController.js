@@ -1,5 +1,6 @@
 const Tour = require('../models/tourModel');
 const User = require('../models/userModel');
+const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
@@ -52,7 +53,21 @@ exports.getAccount = (req, res) => {
   });
 };
 
-// Upd without API
+exports.getMyTours = catchAsync(async (req, res, next) => {
+  // 1. Find all bookings for the current user
+  const bookings = await Booking.find({ user: req.user.id }); // [{user,tour},{...},{...}]
+
+  // 2. Return ids of tours from bookings and search each tour in db
+  const tourIds = bookings.map((el) => el.tour); // [tourId,tourId,tourId]
+  const tours = await Tour.find({ _id: { $in: tourIds } }); // in = search each one
+
+  res.status(200).render('overview', {
+    title: 'My tours',
+    tours,
+  });
+});
+
+// Upd without an API
 // exports.updateUserData = catchAsync(async (req, res, next) => {
 //   const updatedUser = await User.findByIdAndUpdate(
 //     req.user.id,

@@ -1,9 +1,9 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const Tour = require('../models/tourModel');
+const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('../controllers/handlerFactory');
-const AppError = require('../utils/appError');
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1. Get the current booked tour
@@ -12,7 +12,11 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 2. Create a checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    success_url: `${req.protocol}://${req.get('host')}/`,
+
+    success_url: `${req.protocol}://${req.get('host')}/?tour=${
+      req.params.tourId
+    }&user=${req.user.id}&price=${tour.price}`, // >>> req.query: {tour,user,price}
+
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
     customer_email: req.user.email,
     client_reference_id: req.params.tourId,
@@ -29,6 +33,19 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   });
 
   // 3. Redirect to the session and then success/cancel
-  res.redirect(303, session.url);
-  //   res.status(200).json({ status: 'success', session });
+  res.status(200).json({ status: 'success', session });
 });
+
+// viewsRoutes:
+exports.createBookingCheckout = catchAsync(async (req, res, next) => {
+  const { tour, user, price } = req.query;
+
+  if (!tour && !user && !price) return next();
+  await Booking.create({ tour, user, price });
+
+  res.redirect(req.originalUrl.split('?')[0]);
+});
+
+// CRUD:
+exports.getAllBookings = factory.getAll(Booking);
+exports.getOneBooking = factory.getOne(Booking);

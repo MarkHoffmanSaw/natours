@@ -10,4 +10,7 @@ router.get(
   bookingController.getCheckoutSession
 );
 
+router.get('/', bookingController.getAllBookings);
+router.get('/:id', bookingController.getOneBooking);
+
 module.exports = router;
