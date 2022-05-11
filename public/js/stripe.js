@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { showAlert } from './alerts';
 
 const stripe = stripe(
   'pk_test_51Ky9wHGAyskpbiqGgP7QbPAnpDeVorpSMeoAAq0yMf48PIZ8sDZVKlMm5AhAxbKQZFyu1Zc5VkCXH7HsFlH6MNvX00sBalHhqj'
@@ -19,5 +20,6 @@ export const bookTour = async (tourId) => {
     });
   } catch (err) {
     console.log(err);
+    showAlert('error', 'You cannot pay now, try again later');
   }
 };
