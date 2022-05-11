@@ -11309,7 +11309,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 // ); // from script src (tour.pug)
 var bookTour = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(tourId) {
-    var res;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -11323,23 +11322,21 @@ var bookTour = /*#__PURE__*/function () {
             });
 
           case 3:
-            res = _context.sent;
-            if (res.data.status === 'success') location.assign('/');
-            _context.next = 11;
+            _context.next = 9;
             break;
 
-          case 7:
-            _context.prev = 7;
+          case 5:
+            _context.prev = 5;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             (0, _alerts.showAlert)('error', 'You cannot pay now, try again later');
 
-          case 11:
+          case 9:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 7]]);
+    }, _callee, null, [[0, 5]]);
   }));
 
   return function bookTour(_x) {
@@ -11734,7 +11731,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41737" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38301" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
