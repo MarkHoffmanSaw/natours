@@ -11356,7 +11356,7 @@ var stripe = Stripe('pk_test_51Ky9wHGAyskpbiqGgP7QbPAnpDeVorpSMeoAAq0yMf48PIZ8sD
 
 var bookTour = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(tourId) {
-    var session, sessionId;
+    var session;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -11368,35 +11368,27 @@ var bookTour = /*#__PURE__*/function () {
           case 3:
             session = _context.sent;
             console.log(session); // axios: { ... , data: { session }, ... }
+            // 2) Create a checkout form and charge a credit card
 
-            _context.next = 7;
-            return session.data.session.id;
+            location.assign(session.data.session.url); // await stripe.redirectToCheckout({
+            //   sessionId,
+            // });
 
-          case 7:
-            sessionId = _context.sent;
-            console.log(sessionId); // 2) Create a checkout form and charge a credit card
-
-            _context.next = 11;
-            return stripe.redirectToCheckout({
-              sessionId: sessionId
-            });
-
-          case 11:
-            _context.next = 17;
+            _context.next = 12;
             break;
 
-          case 13:
-            _context.prev = 13;
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             (0, _alerts.showAlert)('error', _context.t0);
 
-          case 17:
+          case 12:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 13]]);
+    }, _callee, null, [[0, 8]]);
   }));
 
   return function bookTour(_x) {
