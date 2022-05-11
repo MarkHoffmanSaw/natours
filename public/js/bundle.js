@@ -11370,8 +11370,9 @@ var bookTour = /*#__PURE__*/function () {
             console.log(session); // axios: { ... , data: { session }, ... }
             // 2) Create a checkout form and charge a credit card
 
-            location.assign(session.data.session.url); // await stripe.redirectToCheckout({
-            //   sessionId,
+            console.log(stripe); // location.assign(session.data.session.url);
+            // await stripe.redirectToCheckout({
+            //   sessionId:session.data.session.id
             // });
 
             _context.next = 12;
