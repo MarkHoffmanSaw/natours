@@ -8,10 +8,13 @@ import { showAlert } from './alerts';
 export const bookTour = async (tourId) => {
   try {
     // 1. Get a checkout session from the API
-    await axios(
-      //   `http://127.0.0.1:3000/api/v1/bookings/checkout-session/${tourId}`
-      `https://natours:3000/api/v1/bookings/checkout-session/${tourId}`
-    );
+    const res = await axios({
+      method: 'GET',
+      //   url: `http://127.0.0.1:3000/api/v1/bookings/checkout-session/${tourId}`,
+      url: `/api/v1/bookings/checkout-session/${tourId}`,
+    });
+
+    if (res.data.status === 'success') location.assign('/');
   } catch (err) {
     console.log(err);
     showAlert('error', 'You cannot pay now, try again later');
