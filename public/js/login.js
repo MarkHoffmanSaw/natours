@@ -4,7 +4,7 @@ import { showAlert } from './alerts';
 export const login = async (email, password) => {
   try {
     // const URL = `http://127.0.0.1:3000/api/v1/users/login`;
-    const URL = `http://natours:3000/api/v1/users/login`;
+    const URL = `https://natours:3000/api/v1/users/login`;
     const res = await axios({
       method: 'POST',
       url: URL,
@@ -27,7 +27,7 @@ export const login = async (email, password) => {
 export const logout = async () => {
   try {
     // const URL = `http://127.0.0.1:3000/api/v1/users/logout`; // userRoutes
-    const URL = `http://natours:3000/api/v1/users/logout`;
+    const URL = `https://natours:3000/api/v1/users/logout`;
     const res = await axios({
       method: 'GET',
       url: URL,
