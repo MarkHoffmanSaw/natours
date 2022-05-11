@@ -29,5 +29,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   });
 
   // 3. Create a session as a response
-  res.status(200).json({ status: 'success', session });
+  res.redirect(303, session.url);
+  //   res.status(200).json({ status: 'success', session });
 });

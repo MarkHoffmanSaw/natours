@@ -11352,45 +11352,38 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var stripe = Stripe('pk_test_51Ky9wHGAyskpbiqGgP7QbPAnpDeVorpSMeoAAq0yMf48PIZ8sDZVKlMm5AhAxbKQZFyu1Zc5VkCXH7HsFlH6MNvX00sBalHhqj'); // from script src (tour.pug)
-
+// const stripe = Stripe(
+//   'pk_test_51Ky9wHGAyskpbiqGgP7QbPAnpDeVorpSMeoAAq0yMf48PIZ8sDZVKlMm5AhAxbKQZFyu1Zc5VkCXH7HsFlH6MNvX00sBalHhqj'
+// ); // from script src (tour.pug)
 var bookTour = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(tourId) {
-    var session;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return (0, _axios.default)("http://127.0.0.1:3000/api/v1/bookings/checkout-session/".concat(tourId));
-
-          case 3:
-            session = _context.sent;
-            // Object w/ the session data
-            console.log(session); // 2. Create a checkout form and charge a credit card
-
-            _context.next = 7;
-            return stripe.redirectToCheckout({
-              sessionId: session.data.session.id
+            return (0, _axios.default)({
+              method: 'POST',
+              url: "http://127.0.0.1:3000/api/v1/bookings/checkout-session/".concat(tourId)
             });
 
-          case 7:
-            _context.next = 13;
+          case 3:
+            _context.next = 9;
             break;
 
-          case 9:
-            _context.prev = 9;
+          case 5:
+            _context.prev = 5;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             (0, _alerts.showAlert)('error', 'You cannot pay now, try again later');
 
-          case 13:
+          case 9:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 9]]);
+    }, _callee, null, [[0, 5]]);
   }));
 
   return function bookTour(_x) {
