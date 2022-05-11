@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const sendEmail = require('../utils/email');
+const Email = require('../utils/email');
 
 // -- Creating a token
 const signToken = (id) => {
@@ -41,6 +41,7 @@ const createSendToken = (user, status, res) => {
 // -- Getting the token for a new user
 // POST
 exports.signup = catchAsync(async (req, res, next) => {
+  // Create the user in the DB
   const newUser = await User.create({
     // don't use { req.body } for protecting!
     name: req.body.name,
@@ -51,6 +52,11 @@ exports.signup = catchAsync(async (req, res, next) => {
     role: req.body.role,
   });
 
+  // Send the welcome email
+  const url = `${req.protocol}://${req.get('host')}/me`;
+  await new Email(newUser, url).sendWelcome();
+
+  // JWT
   createSendToken(newUser, 201, res);
 });
 
@@ -188,20 +194,13 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   user.save({ validateBeforeSave: false }); // save it and turn off all request validators before .save()
 
   // 3. Send it to the user's email
-  const resetURL = `${req.protocol}://${req.get(
-    'host'
-  )}/api/v1/users/resetPassword/${resetToken}`;
-
-  const message = `Did you forget a password? Follow the link: ${resetURL} and get the new one.
-  If you didn't forget your password, please ignore this message`;
-
   // * using try-catch in order to handle sending errors
   try {
-    await sendEmail({
-      email: user.email,
-      subject: 'Your password reset token (valid for 10 min)',
-      message,
-    });
+    const resetURL = `${req.protocol}://${req.get(
+      'host'
+    )}/api/v1/users/resetPassword/${resetToken}`;
+
+    await new Email(user, resetURL).sendPasswordReset();
 
     res
       .status(200)

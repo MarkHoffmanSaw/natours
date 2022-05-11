@@ -7,7 +7,8 @@ exports.getOverview = catchAsync(async (req, res, next) => {
   // 1. Get tours from the collection
   const tours = await Tour.find();
 
-  // 2. Build a template: tour.pug
+  // 2. Build a template: overview.pug
+
   // 3. Render recieved tours
   res.status(200).render('overview', {
     title: 'All tours',
@@ -24,7 +25,8 @@ exports.getTour = catchAsync(async (req, res, next) => {
 
   if (!tour) return next(new AppError('There is no tour with that name', 404));
 
-  // 2. Build a template
+  // 2. Build a template: tour.pug
+
   // 3. Render the recieved tour
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
