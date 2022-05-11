@@ -11363,10 +11363,7 @@ var bookTour = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return (0, _axios.default)({
-              method: 'POST',
-              url: "http://127.0.0.1:3000/api/v1/bookings/checkout-session/".concat(tourId)
-            });
+            return (0, _axios.default)("http://127.0.0.1:3000/api/v1/bookings/checkout-session/".concat(tourId));
 
           case 3:
             _context.next = 9;
