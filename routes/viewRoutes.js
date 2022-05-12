@@ -10,7 +10,7 @@ router.get(
   '/',
   bookingController.createBookingCheckout,
   authController.isLoggedIn,
-  viewsController.getOverview
+  viewsController.getOverview   
 );
 router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour);
 router.get('/signup', authController.isLoggedIn, viewsController.getSignupForm);
