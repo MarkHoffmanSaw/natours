@@ -16,11 +16,10 @@ router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour);
 router.get('/signup', authController.isLoggedIn, viewsController.getSignupForm);
 router.get('/login', authController.isLoggedIn, viewsController.getLoginForm);
 
-// logged in:
-router.use(authController.protect);
-router.get('/me', viewsController.getAccount);
-router.get('/my-tours', viewsController.getMyTours);
-router.get('/my-reviews', viewsController.getMyReviews);
+// After logged in:
+router.get('/me', authController.protect, viewsController.getAccount);
+router.get('/my-tours', authController.protect, viewsController.getMyTours);
+router.get('/my-reviews', authController.protect, viewsController.getMyReviews);
 
 // Upd without API
 // router.post(
