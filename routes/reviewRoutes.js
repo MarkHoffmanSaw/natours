@@ -3,6 +3,7 @@ const reviewController = require('../controllers/reviewController');
 const authController = require('../controllers/authController');
 
 const router = express.Router({ mergeParams: true }); // for getting access ":tourId" in "tourRoutes"
+// tour/...id.../reviews/ (and access to the middlewares:)
 
 // AFTER authentication
 router.use(authController.protect);
