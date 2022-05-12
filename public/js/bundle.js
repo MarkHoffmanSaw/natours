@@ -11202,27 +11202,26 @@ var signup = /*#__PURE__*/function () {
 
           case 4:
             res = _context.sent;
-            console.log(res);
 
             if (res.data.status === 'success') {
               (0, _alerts.showAlert)('success', 'You have registered successfully');
               location.assign('/');
             }
 
-            _context.next = 12;
+            _context.next = 11;
             break;
 
-          case 9:
-            _context.prev = 9;
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context["catch"](0);
             (0, _alerts.showAlert)('error', _context.t0.message); // console.log(error);
 
-          case 12:
+          case 11:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 9]]);
+    }, _callee, null, [[0, 8]]);
   }));
 
   return function signup(_x, _x2, _x3, _x4) {
@@ -11366,8 +11365,8 @@ var updateData = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            URL_DATA = "http://127.0.0.1:3000/api/v1/users/updateMe";
-            URL_PASSWORD = "http://127.0.0.1:3000/api/v1/users/updateMyPassword";
+            URL_DATA = "/api/v1/users/updateMe";
+            URL_PASSWORD = "/api/v1/users/updateMyPassword";
             _context.next = 5;
             return (0, _axios.default)({
               method: 'PATCH',
