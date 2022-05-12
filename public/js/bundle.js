@@ -11379,6 +11379,7 @@ var updateData = /*#__PURE__*/function () {
 
             if (res.data.status === 'success') {
               (0, _alerts.showAlert)('success', "You have successfully updated ".concat(type.toUpperCase()));
+              location.assign('/me');
             }
 
             _context.next = 12;

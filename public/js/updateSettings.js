@@ -17,6 +17,7 @@ export const updateData = async (data, type) => {
         'success',
         `You have successfully updated ${type.toUpperCase()}`
       );
+      location.assign('/me');
     }
   } catch (err) {
     showAlert('error', err.response.data.message);
