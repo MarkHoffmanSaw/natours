@@ -1,9 +1,9 @@
 import '@babel/polyfill';
-// import { displayMap } from './mapbox';
+import { displayMap } from './mapbox';
 import { signup } from './signup';
 import { login, logout } from './login';
 import { updateData } from './updateSettings';
-// import { bookTour } from './stripe';
+import { bookTour } from './stripe';
 
 // DOM elements
 
