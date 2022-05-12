@@ -1,8 +1,7 @@
 mixin reviewCard(review)
-  .reviews__card
-    .reviews__avatar
-      h6.reviews__user= review.user.name
-    p.reviews__text= review.tour.name
+  a.reviews__card(href=`/tour/${review.tour.slug}`)
+    h6.reviews__user= review.tour.name
+    p.reviews__text= review.review
     .reviews__rating
       each star in [1, 2, 3, 4, 5]
         svg.reviews__star(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
