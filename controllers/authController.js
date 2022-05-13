@@ -23,6 +23,8 @@ const createSendToken = (user, status, res) => {
     ),
     secure: process.env.NODE_ENV === 'production' ? true : false,
     httpOnly: true,
+    // Check for the secure connection
+    // secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
   };
 
   // Save cookie

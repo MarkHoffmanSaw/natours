@@ -7,6 +7,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -14,6 +15,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 const viewRouter = require('./routes/viewRoutes');
 const { triggerAsyncId } = require('async_hooks');
 
@@ -25,6 +27,14 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // 1. Global middlewares:
+
+// CORS
+app.use(cors());
+// Access-Control-Allow-Origin * (for all)
+// cors({ origin: "URL front-end" })
+// Pre-flight:
+app.options('*', cors()); // for all routes
+// app.options('/api/v1/tours', cors()) // only for that route
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -45,6 +55,13 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP. Try again later',
 });
 app.use('/api', limiter);
+
+// Stripe webhook
+app.use(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout
+); // before JSON
 
 // Body parser,reading data from body into req.body
 // {} - options
