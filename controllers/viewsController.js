@@ -8,9 +8,8 @@ const AppError = require('../utils/appError');
 
 // Middleware for data-alert='...' (base.pug - body)
 exports.alerts = (req, res, next) => {
-  const { alerts } = req.query;
-  console.log(alerts);
-  if (alerts === 'booking') {
+  const { alert } = req.query;
+  if (alert === 'booking') {
     res.locals.alert =
       "You have booked the tour successfully. If you don't see the tour here, please check later.";
   }
