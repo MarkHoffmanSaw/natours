@@ -11,7 +11,7 @@ exports.alerts = (req, res, next) => {
   const { alert } = req.query; // ?alert=...
   if (alert === 'booking') {
     res.locals.alert =
-      "You have booked the tour successfully. If you don't see the tour here, please check later.";
+      "You have booked the tour successfully. If you don't see the tour on this page, please check it later.";
   }
   next();
 };
