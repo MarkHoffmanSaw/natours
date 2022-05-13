@@ -6,6 +6,16 @@ const Review = require('../models/reviewModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
+// Middleware for data-alert='...' (base.pug - body)
+exports.alerts = (req, res, next) => {
+  const { alerts } = req.query;
+  if (alerts === 'booking') {
+    res.locals.alert =
+      "You have booked the tour successfully. If you don't see the tour here, please check later.";
+  }
+  next();
+};
+
 exports.getOverview = catchAsync(async (req, res, next) => {
   // 1. Get tours from the collection
   const tours = await Tour.find();

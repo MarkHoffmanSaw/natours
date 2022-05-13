@@ -4,6 +4,7 @@ import { signup } from './signup';
 import { login, logout } from './login';
 import { updateData } from './updateSettings';
 import { bookTour } from './stripe';
+import { showAlert } from './alerts';
 
 // DOM elements
 
@@ -99,3 +100,7 @@ if (bookBtn) {
     bookTour(tourId);
   });
 }
+
+// Alerts
+const alertMessage = document.querySelector('body').dataset.alert;
+if (alertMessage) showAlert('success', alertMessage, 10);
