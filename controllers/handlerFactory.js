@@ -76,7 +76,7 @@ exports.getAll = (Model) =>
     // Execute query
     // http://...?duration[gte]=5&...
     // req.query: { duration: { gte: '5' }, ... }
-    const features = new APIFeatures(Model.find(filter), req.query)
+    const features = new APIFeatures(Model.find(filter), req.query) 
       .filter()
       .sort()
       .limitFields()
