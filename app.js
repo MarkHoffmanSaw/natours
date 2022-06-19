@@ -17,7 +17,6 @@ const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const bookingController = require('./controllers/bookingController');
 const viewRouter = require('./routes/viewRoutes');
-const { triggerAsyncId } = require('async_hooks');
 
 const app = express();
 
